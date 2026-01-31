@@ -1,31 +1,96 @@
 # ML Model Deployment with FastAPI & Docker
 
-This project focuses on deploying a trained machine learning model as a production-style REST API using FastAPI, with Docker for consistent and portable deployment.
+REST API for serving ML model predictions using FastAPI and Docker.
 
-## What this project does
-- Serves ML model predictions through RESTful API endpoints  
-- Loads trained models efficiently for inference  
-- Validates incoming requests to prevent invalid inputs  
-- Handles errors gracefully and returns clear responses  
+## Project Structure
 
-## Deployment
-The application is containerized using Docker to ensure:
-- Environment consistency across systems  
-- Easy setup and reproducible deployments  
-- Simplified local testing and future cloud deployment  
+```
+├── api.py              # FastAPI application
+├── model.py            # Model loading and inference
+├── schemas.py          # Pydantic models for validation
+├── train_model.py      # Create sample model
+├── test_api.py         # API testing script
+├── Dockerfile          # Docker configuration
+├── requirements.txt
+└── README.md
+```
 
-## Why I built this
-The goal of this project was to move beyond notebook-based ML and understand how trained models are exposed as services in real-world systems.
+## Features
 
-## Tech stack
-- Python  
-- FastAPI  
-- scikit-learn  
-- Docker  
+- **REST API**: FastAPI endpoints for predictions
+- **Input Validation**: Pydantic schemas
+- **Model Loading**: Reliable model inference
+- **Docker**: Containerized deployment
+- **Error Handling**: Comprehensive error responses
+- **Testing**: API endpoint tests
 
-## How to run locally
+## Quick Start
 
-### Using Docker
+Install dependencies:
 ```bash
-docker build -t ml-fastapi-app .
-docker run -p 8000:8000 ml-fastapi-app
+pip install -r requirements.txt
+```
+
+Create sample model:
+```bash
+python train_model.py
+```
+
+Run API locally:
+```bash
+uvicorn api:app --reload
+```
+
+Test endpoints:
+```bash
+python test_api.py
+```
+
+Visit API docs: `http://localhost:8000/docs`
+
+## Docker Deployment
+
+Build image:
+```bash
+docker build -t ml-api .
+```
+
+Run container:
+```bash
+docker run -p 8000:8000 ml-api
+```
+
+## API Endpoints
+
+### GET /
+Root endpoint with API info
+
+### GET /health
+Health check and model status
+
+### POST /predict
+Make predictions
+```json
+{
+  "feature_1": 5.1,
+  "feature_2": 3.5,
+  "feature_3": 1.4,
+  "feature_4": 0.2
+}
+```
+
+### GET /model/info
+Model information
+
+## Testing
+
+The `test_api.py` script tests:
+- Root endpoint
+- Health check
+- Predictions
+- Input validation
+- Error handling
+
+## Author
+
+Built to demonstrate ML model deployment with modern tools.
